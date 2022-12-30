@@ -32,7 +32,10 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
     sequence.forEach((i) => {
       sequenceAverages.push(
         Number(
-          ((i.filter((i) => i === "green").length / i.length) * 100).toFixed(2)
+          (
+            (i.filter((i) => Math.sign(i) !== -1).length / i.length) *
+            100
+          ).toFixed(2)
         )
       );
     });
@@ -47,12 +50,15 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
     };
   }
 
-  function getMaxConsecutive(def = "green") {
+  function getMaxConsecutive(def = "win") {
+    // Math.sign(i) !== -1
     let arr = selectedStrategy.tradeDetails.tradesSequence;
     let count = 0;
     let result = 0;
     for (var i = 0; i < arr.length; i++) {
-      if (arr[i] === def) {
+      const logic =
+        def === "win" ? Math.sign(arr[i]) !== -1 : Math.sign(arr[i]) === -1;
+      if (logic) {
         count += 1;
         result = Math.max(result, count);
       } else {
@@ -211,11 +217,11 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
               <div className="sequcenceResult result">
                 <div className="stats">
                   <div className="label">Consec. Wins</div>
-                  <span>{getMaxConsecutive("green")}</span>
+                  <span>{getMaxConsecutive("win")}</span>
                 </div>
                 <div className="stats">
                   <div className="label">Consec. Loss</div>
-                  <span>{getMaxConsecutive("red")}</span>
+                  <span>{getMaxConsecutive("loss")}</span>
                 </div>
                 <div className="stats">
                   <div className="label">Profit factor</div>
