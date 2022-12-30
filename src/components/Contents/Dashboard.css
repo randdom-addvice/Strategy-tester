@@ -1,0 +1,129 @@
+:root {
+  --red: hsl(0, 78%, 62%);
+  --cyan: hsl(180, 62%, 55%);
+  --orange: hsl(34, 97%, 64%);
+  --blue: hsl(212, 86%, 64%);
+  --green: #15ba83;
+  --varyDarkBlue: hsl(234, 12%, 34%);
+  --grayishBlue: hsl(229, 6%, 66%);
+  --veryLightGray: hsl(0, 0%, 98%);
+  --weight1: 200;
+  --weight2: 400;
+  --weight3: 600;
+}
+.dashboard .blue {
+  background: var(--blue);
+  color: #fff;
+}
+.dashboard .veryDarkBlue {
+  background: var(--varyDarkBlue);
+  color: #fff;
+}
+.dashboard .red {
+  background: var(--red);
+  color: #fff;
+}
+.dashboard .cyan {
+  background: var(--cyan);
+  color: #fff;
+}
+.dashboard .green {
+  background: var(--green);
+  color: #fff;
+}
+
+.dashboard .grid {
+  display: flex;
+  gap: 15px;
+  /* display: grid;
+  grid-template-columns: 50% 35% 15%;
+  grid-gap: 15px; */
+}
+.current-stat .green,
+.current-stat .red {
+  background-color: yellowgreen;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.2rem;
+}
+.inputs {
+  min-width: 240px;
+  max-width: 240px;
+}
+.input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.input-grid div,
+.input-grid input {
+  width: 100px;
+}
+.input-grid button {
+  display: block;
+}
+.grid > div {
+  border: 1px solid lightgrey;
+  padding: 1rem;
+  height: fit-content;
+}
+.buttons-grid {
+  min-width: 100px;
+  max-width: 100px;
+}
+.buttons-grid button,
+.input-grid button {
+  display: block;
+  width: 100%;
+  margin: 1rem auto;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.2rem;
+}
+/* .input-grid input {
+    wid
+} */
+.current-stat {
+  width: -webkit-fill-available;
+}
+.current-stat .result {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.current-stat .sequcenceResult {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin-top: 2rem;
+}
+.sequcenceResult input {
+  width: 50px;
+  border: none;
+  text-align: center;
+}
+.result .label {
+  display: block;
+  color: #525d60;
+  padding: 0;
+  font-size: 10px;
+  line-height: initial;
+  text-align: left;
+}
+.result span {
+  font-weight: bold;
+  text-align: left;
+  color: var(--blue);
+  font-size: 13px;
+  display: block;
+  margin-top: 0.5rem;
+}
+.current-stat a {
+  font-size: 12px;
+  text-decoration: underline;
+  margin-top: 0.5rem;
+}
+.chart {
+  margin-top: 4rem;
+}

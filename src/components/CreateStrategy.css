@@ -1,0 +1,84 @@
+*,
+*:before,
+*:after {
+  transition: all 0.5s cubic-bezier(0.5, 0, 0.5, 1);
+  transition-property: transform, opacity, background-color, border-color;
+  transition-delay: 0s;
+}
+
+.ui-modal {
+  --color-primary: #5a52ff;
+  --color-error: #e0294c;
+  --color-success: #0dbe65;
+  background-color: #fff;
+  padding: 2rem 4rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  left: 50%;
+  width: 300px;
+  z-index: 100;
+}
+.ui-password {
+  appearance: none;
+  background: none;
+  border: none;
+  padding-bottom: 2px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+.ui-password:before,
+.ui-password:after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+.ui-password:after {
+  background-color: #e8e9f0;
+  z-index: 0;
+}
+.ui-password-input {
+  border: 1px solid rgb(207, 199, 199);
+  border-radius: 2px;
+  padding: 0.4rem 0.4rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.ui-modal textarea {
+  border: 1px solid rgb(207, 199, 199);
+  border-radius: 2px;
+  padding: 0.4rem 0.4rem;
+  width: 100%;
+}
+.ui-password-input:focus {
+  outline: none;
+}
+.ui-submit {
+  appearance: none;
+  padding: 0.5rem 1.5rem;
+  /* height: 2rem; */
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  color: white;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.ui-submit:active {
+  transform: scale(0.9);
+  transition-duration: 0.2s;
+}
+.ui-submit:focus {
+  outline: none;
+}
