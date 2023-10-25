@@ -82,3 +82,8 @@
 .ui-submit:focus {
   outline: none;
 }
+.ui-submit.cancel {
+  background-color: var(--color-error);
+  border-color: var(--color-error);
+  margin-left: 12px;
+}

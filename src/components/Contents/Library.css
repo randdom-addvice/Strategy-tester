@@ -11,10 +11,21 @@
   --weight3: 600;
 }
 
+.Library input,
+.Library textarea {
+  border: none;
+  width: 100%;
+  background-color: transparent;
+}
+
 body {
   font-size: 15px;
   font-family: "Poppins", sans-serif;
   background-color: var(--veryLightGray);
+}
+.Library {
+  width: 95%;
+  margin: auto;
 }
 
 .attribution {
@@ -61,12 +72,29 @@ h1:last-of-type {
   width: 300px;
   border-radius: 5px;
   box-shadow: 0px 30px 40px -20px var(--grayishBlue);
-  padding: 30px;
+  padding: 15px 30px;
   margin: 20px;
 }
 .box a {
   float: right;
   text-decoration: underline;
+}
+.delete a {
+  color: red;
+  opacity: 0;
+  pointer-events: none;
+}
+.edit a {
+  opacity: 0;
+  margin-right: 10px;
+  pointer-events: none;
+}
+.box:hover .delete a,
+.box:hover .edit a {
+  pointer-events: initial;
+  opacity: 1;
+  transition-duration: 0.1s;
+  cursor: pointer;
 }
 
 .box ul {

@@ -4,20 +4,19 @@ import "./Dashboard.css";
 
 const Dashboard = () => {
   const parameters = new URLSearchParams(window.location.search);
-  const strategies = JSON.parse(localStorage.getItem("strategies")) ?? [];
-  const selectedStrategy = strategies.find(
-    (strategy) => strategy.id == parameters.get("selection")
-  );
+  const libraries = JSON.parse(localStorage.getItem("libraries")) ?? [];
+  const libraryId = parameters.get("libraryId");
+  const selectedStrategy = libraries
+    .find((lib) => lib.id == libraryId)
+    ?.strategies.find((i) => i.id == parameters.get("strategyId"));
 
-  // console.log(parameters.get("selection"));
-  // console.log(selectedStrategy);
-  // console.log(strategies);
   return (
     <div className="container-fluid">
       {selectedStrategy ? (
         <DashboardContent
           selectedStrategy={selectedStrategy}
-          strategies={strategies}
+          libraries={libraries}
+          libraryId={libraryId}
         />
       ) : (
         <div>

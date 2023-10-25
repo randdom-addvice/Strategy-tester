@@ -1,62 +1,64 @@
 import React, { useState } from "react";
 import "./CreateStrategy.css";
 
-const CreateStrategy = ({ id }) => {
+const CreateLibrary = () => {
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   function createStrategy() {
     if (!name.length) return;
+    // const startegies = JSON.parse(localStorage.getItem("strategies")) ?? [];
+    // const newStategy = {
+    //   name,
+    //   description,
+    //   id: Date.now(),
+    //   history: [],
+    //   tradeDetails: {
+    //     totalTrades: 0,
+    //     totalLossesPercent: 0,
+    //     totalWinningsPercent: 0,
+    //     totalLosses: 0,
+    //     totalWinnings: 0,
+    //     percentageWin: 0,
+    //     profitGain: 0,
+    //     tradesSequence: [],
+    //     growth: [],
+    //   },
+    // };
+    // localStorage.setItem(
+    //   "strategies",
+    //   JSON.stringify([...startegies, newStategy])
+    // );
     const libraries = JSON.parse(localStorage.getItem("libraries")) ?? [];
-    const newStrategy = {
-      name,
-      description,
-      id: Date.now(),
-      history: [],
-      tradeDetails: {
-        totalTrades: 0,
-        totalLossesPercent: 0,
-        totalWinningsPercent: 0,
-        totalLosses: 0,
-        totalWinnings: 0,
-        percentageWin: 0,
-        profitGain: 0,
-        tradesSequence: [],
-        growth: [],
-      },
-    };
-    const foundLibraryIndex = libraries.findIndex(
-      (library) => library.id === id
+    const newLibrary = { id: Date.now(), name, strategies: [] };
+    localStorage.setItem(
+      "libraries",
+      JSON.stringify([...libraries, newLibrary])
     );
-    console.log(foundLibraryIndex);
-    console.log(id);
-    console.log(libraries);
-    if (foundLibraryIndex !== -1) {
-      libraries[foundLibraryIndex].strategies.push(newStrategy);
-      localStorage.setItem("libraries", JSON.stringify(libraries));
-    }
     setShowModal(false);
-    window.location.reload();
   }
   return (
     <div>
       <a href="#" onClick={() => setShowModal(!showModal)}>
-        Create strategy
+        Create Library
       </a>
+      {/* <a href="#" onClick={() => setShowModal(!showModal)}>
+        Create strategy
+      </a> */}
       {showModal && (
         <div class="ui-modal" autocomplete="off">
           <div class="ui-password">
             <input
               type="text"
               class="ui-password-input"
-              placeholder="Name"
+              placeholder="Library Name"
               onChange={(e) => setName(e.target.value)}
             />
-            <textarea
+            {/* <textarea
               placeholder="description"
               onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
+            ></textarea> */}
           </div>
           <div>
             <button class="ui-submit" onClick={createStrategy}>
@@ -75,4 +77,4 @@ const CreateStrategy = ({ id }) => {
   );
 };
 
-export default CreateStrategy;
+export default CreateLibrary;

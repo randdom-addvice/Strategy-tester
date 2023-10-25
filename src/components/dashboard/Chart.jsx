@@ -12,6 +12,10 @@ const Chart = ({ growth }) => {
         data: growth,
       },
     ],
+    legend: {
+      enabled: false,
+    },
+
     responsive: {
       rules: [
         {

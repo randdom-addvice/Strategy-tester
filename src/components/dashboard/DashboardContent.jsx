@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Chart from "./Chart";
 
-const DashboardContent = ({ selectedStrategy, strategies }) => {
+const DashboardContent = ({ selectedStrategy, libraries, libraryId }) => {
   const [showMoreResult, setShowMoreResult] = useState(false);
-  const [lossCountvalue, setLossCountValue] = useState(0.2);
-  const [winCountvalue, setWinCountValue] = useState(0.4);
+  const [lossCountvalue, setLossCountValue] = useState(
+    Number(localStorage.getItem("lossInputValue") ?? 0.2)
+  );
+  const [winCountvalue, setWinCountValue] = useState(
+    Number(localStorage.getItem("profitInputValue") ?? 0.2)
+  );
   const [sequenceSize, setSequenceSize] = useState(100);
   const [profitGain, setProfitGain] = useState(
     Number(selectedStrategy.tradeDetails.profitGain) ?? 0
@@ -47,6 +51,7 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
       totalAverages,
       totalSequencies: sequenceAverages.length,
       sequenceSize,
+      sequenceAverages,
     };
   }
 
@@ -92,13 +97,13 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
   }
 
   useEffect(() => {
-    console.log(calculateProfitFactor(), "temp");
+    console.log(getTradesSequenceAverage(), "temp");
   }, []);
 
   function log(win, logic) {
     if (win) {
       setWincount(logic === "add" ? winCount + 1 : winCount - 1);
-      setTradesSequence([...tradesSequence, "green"]);
+      setTradesSequence([...tradesSequence, winCountvalue]);
       setProfitGain((prev) =>
         logic === "add" ? prev + winCountvalue : prev - winCountvalue
       );
@@ -107,7 +112,7 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
       setProfitGain((prev) =>
         logic === "add" ? prev - lossCountvalue : prev + lossCountvalue
       );
-      setTradesSequence([...tradesSequence, "red"]);
+      setTradesSequence([...tradesSequence, -lossCountvalue]);
     }
     if (logic !== "add") {
       setTradesSequence((prev) => {
@@ -135,10 +140,17 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
       tradesSequence,
       growth,
     };
-    const updatedStrategies = strategies.map((i) =>
-      i.id === selectedStrategy.id ? { ...i, tradeDetails: newHistory } : i
+    const copiedLibrares = [...libraries];
+    const foundLibraryIndex = copiedLibrares.findIndex(
+      (library) => library.id == libraryId
     );
-    localStorage.setItem("strategies", JSON.stringify(updatedStrategies));
+    const updatedStrategies = copiedLibrares[foundLibraryIndex].strategies.map(
+      (i) =>
+        i.id === selectedStrategy.id ? { ...i, tradeDetails: newHistory } : i
+    );
+    copiedLibrares[foundLibraryIndex].strategies = updatedStrategies;
+    localStorage.setItem("libraries", JSON.stringify(copiedLibrares));
+    localStorage.setItem("backupLibraries", JSON.stringify(copiedLibrares));
   }
 
   function reset() {
@@ -158,10 +170,10 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
       growth: [],
     };
 
-    const updatedStrategies = strategies.map((i) =>
-      i.id === selectedStrategy.id ? { ...i, tradeDetails } : i
-    );
-    localStorage.setItem("strategies", JSON.stringify(updatedStrategies));
+    // const updatedStrategies = strategies.map((i) =>
+    //   i.id === selectedStrategy.id ? { ...i, tradeDetails } : i
+    // );
+    // localStorage.setItem("strategies", JSON.stringify(updatedStrategies));
   }
 
   return (
@@ -196,6 +208,20 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
             <>
               <div className="sequcenceResult result">
                 <div className="stats">
+                  <div className="label">Consec. Wins</div>
+                  <span>{getMaxConsecutive("win")}</span>
+                </div>
+                <div className="stats">
+                  <div className="label">Consec. Loss</div>
+                  <span>{getMaxConsecutive("loss")}</span>
+                </div>
+                <div className="stats">
+                  <div className="label">Profit factor</div>
+                  <span>{calculateProfitFactor().profitFactor}</span>
+                </div>
+              </div>
+              <div className="sequcenceResult result">
+                <div className="stats">
                   <div className="label">Total Avg</div>
                   <span>{getTradesSequenceAverage().totalAverages}</span>
                 </div>
@@ -213,19 +239,29 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
                     />
                   </span>
                 </div>
-              </div>
-              <div className="sequcenceResult result">
                 <div className="stats">
-                  <div className="label">Consec. Wins</div>
-                  <span>{getMaxConsecutive("win")}</span>
-                </div>
-                <div className="stats">
-                  <div className="label">Consec. Loss</div>
-                  <span>{getMaxConsecutive("loss")}</span>
-                </div>
-                <div className="stats">
-                  <div className="label">Profit factor</div>
-                  <span>{calculateProfitFactor().profitFactor}</span>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>index</th>
+                        <th>avg.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {getTradesSequenceAverage().sequenceAverages.map(
+                        (i, index) => (
+                          <tr>
+                            <td>
+                              <span>{index + 1}</span>
+                            </td>
+                            <td>
+                              <span>{i}</span>
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </>
@@ -239,12 +275,15 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
           <div className="input-grid">
             <div>
               <input
-                onChange={(e) => setLossCountValue(Number(e.target.value))}
+                onChange={(e) => {
+                  setLossCountValue(Number(e.target.value));
+                  localStorage.setItem("lossInputValue", e.target.value);
+                }}
                 value={lossCountvalue}
                 type="number"
                 placeholder="loss"
-                min="0"
-                step="any"
+                // min="0"
+                // step="any"
               />
               <button className="red" onClick={() => log(false, "add")}>
                 - add loss
@@ -253,7 +292,10 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
             </div>
             <div>
               <input
-                onChange={(e) => setWinCountValue(Number(e.target.value))}
+                onChange={(e) => {
+                  setWinCountValue(Number(e.target.value));
+                  localStorage.setItem("profitInputValue", e.target.value);
+                }}
                 value={winCountvalue}
                 type="number"
                 min="0"
@@ -271,7 +313,7 @@ const DashboardContent = ({ selectedStrategy, strategies }) => {
           <button onClick={documentHistory} className="blue">
             Save
           </button>
-          <button onClick={reset} className="veryDarkBlue">
+          <button disabled onClick={reset} className="veryDarkBlue">
             Reset
           </button>
         </div>

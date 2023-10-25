@@ -124,6 +124,35 @@
   text-decoration: underline;
   margin-top: 0.5rem;
 }
+.result table {
+  width: 100%;
+}
+.result td {
+  border: 1px solid lightgray;
+}
+.result th {
+  color: #525d60;
+  padding: 0;
+  font-size: 10px;
+  line-height: initial;
+  text-align: left;
+  border: 1px solid lightgray;
+}
 .chart {
   margin-top: 4rem;
+}
+.dashboard button.green:focus {
+  box-shadow: 0 0 0 0.2rem var(--green);
+  background: #007b52;
+}
+.dashboard button.red:focus {
+  box-shadow: 0 0 0 0.2rem var(--red);
+  background: hsl(0deg 91% 40%);
+}
+.dashboard button.blue:focus {
+  box-shadow: 0 0 0 0.2rem var(--blue);
+  background: hsl(212deg 100% 45%);
+}
+.dashboard button.veryDarkBlue:disabled {
+  opacity: 0.5;
 }

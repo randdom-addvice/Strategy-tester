@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import Dashboard from "./components/Contents/Dashboard";
 import Library from "./components/Contents/Library";
+import CreateLibrary from "./components/CreateLibrary";
 import CreateStrategy from "./components/CreateStrategy";
 import Sidebar from "./components/Sidebar";
 
@@ -37,7 +38,7 @@ function App() {
             <div className="container-fluid">
               <ul className="nav navbar-nav navbar-right">
                 <li>
-                  <CreateStrategy />
+                  <CreateLibrary />
                 </li>
               </ul>
             </div>
